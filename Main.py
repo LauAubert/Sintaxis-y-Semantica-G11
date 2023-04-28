@@ -44,6 +44,7 @@ def menu():
     invalido = True
     while invalido:
         print('Seleccione una opcion')
+        print('0- Salir')
         print('1- Encolar proceso')
         print('2- Modificar la prioridad del proceso')
         print('3- Desencolar proceso')
@@ -52,7 +53,8 @@ def menu():
         print('6- Eliminar los procesos cuyo tipo sea igual al ingresado')
         print('7- Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas')
         try:rta = int(input('->'))
-        except: rta = 0
+        except: rta = 8
+        if rta==0: exit()
         if rta>7 or rta<1:
             limpiarPantalla()
             print('Opcion invalida, ingrese de nuevo')
@@ -100,6 +102,7 @@ while True:
         print('usted desencoló el proceso con las siguientes propiedades')
         imprimirProc()
         imprimirProc(proc)
+        input('presione enter para continuar')
 
     elif opcion == 4: #Listado de procesos
         imprimirProc()
@@ -111,6 +114,7 @@ while True:
         while not tc.es_vacia(colaaux):
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
+        input('presione enter para continuar')
 
     elif opcion == 5: #Dado un determinado mes, modificar la prioridad de los procesos a baja
         print('Ingrese el mes a modificar')
@@ -124,6 +128,8 @@ while True:
         while not tc.es_vacia(colaaux):
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
+        print('Se modificaron los procesos del mes',mes,'a prioridad baja')
+        input('presione enter para continuar')
 
 
     elif opcion == 6: #Eliminar los procesos cuyo tipo sea igual al ingresado
@@ -137,6 +143,8 @@ while True:
         while not tc.es_vacia(colaaux):
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
+        print('Se eliminaron los procesos de tipo',tipoproc)
+        input('presione enter para continuar')
             
 
     elif opcion == 7: #Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas
@@ -156,6 +164,7 @@ while True:
         while not tc.es_vacia(colaaux):
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
+        input('presione enter para continuar')
 
-    if (opcion == 1): limpiarPantalla()
+    limpiarPantalla()
 
