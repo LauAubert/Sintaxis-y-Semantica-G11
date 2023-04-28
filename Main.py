@@ -140,7 +140,22 @@ while True:
             
 
     elif opcion == 7: #Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas
-        pass
+        print('Ingrese la hora inicial')
+        horaini = int(input('->'))
+        print('Ingrese la hora final')
+        horafin = int(input('->'))
+        colaaux = tc.crear_cola()
+        colafiltro = tc.crear_cola()
+        imprimirProc()
+        while not tc.es_vacia(cola):
+            proc = tc.desencolar_proc(cola)
+            if horaini <= tp.ver_hora(proc) and tp.ver_hora(proc) <= horafin:
+                tc.encolar_proc(colafiltro,proc)
+                imprimirProc(proc)
+            tc.encolar_proc(colaaux,proc)
+        while not tc.es_vacia(colaaux):
+            proc = tc.desencolar_proc(colaaux)
+            tc.encolar_proc(cola,proc)
 
     if (opcion == 1): limpiarPantalla()
 
