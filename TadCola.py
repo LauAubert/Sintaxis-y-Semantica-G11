@@ -1,4 +1,3 @@
-import TadProceso as tp
 
 def crear_cola():
     return []
