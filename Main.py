@@ -14,7 +14,7 @@ cola = [
     [8,'proceso8','x',8,8,datetime.datetime.now()],
 ]
 
-print() # Mensaje antes del menu
+print("Bienvenido") # Mensaje antes del menu
 
 def limpiarPantalla(): os.system('cls' if os.name=='nt' else 'clear')
 def imprimirProc(proc=None):
@@ -76,11 +76,11 @@ while True:
         tam=int(input('->'))
         print('ingrese tipo')
         tipo=input('->')
-        print('ingrese mes')
-        mes=int(input('->'))
         print('ingrese hora')
         hora=int(input('->'))
-        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,mes,hora)
+        print('ingrese minutos')
+        minutos=int(input('->'))
+        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,minutos,hora)
         tc.encolar_proc(cola,proc)
 
     elif opcion ==2: #Modificar la prioridad del proceso
@@ -150,8 +150,12 @@ while True:
     elif opcion == 7: #Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas
         print('Ingrese la hora inicial')
         horaini = int(input('->'))
+        print('Ingrese los minutos iniciales')
+        minini = int(input('->'))
         print('Ingrese la hora final')
         horafin = int(input('->'))
+        print('Ingrese los minutos finales')
+        minfin = int(input('->'))
         colaaux = tc.crear_cola()
         colafiltro = tc.crear_cola()
         imprimirProc()

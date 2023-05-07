@@ -17,7 +17,7 @@ def crear_proceso():
     #Crea un proceso vacio
     return [0,"","",0,0,datetime.datetime.now()]
 
-def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,mes:int,hora:int) -> None:
+def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,minutos:int,hora:int) -> None:
     #Carga la info del proceso
     proc[0] = pid
     proc[1] = nom
@@ -27,11 +27,10 @@ def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,mes:int,hora:i
     fechatemp = proc[5]
     proc[5] = datetime.datetime(
         fechatemp.year,
-        mes,
+        fechatemp.month,
         fechatemp.day,
         hora,
-        fechatemp.hour,
-        fechatemp.minute,
+        minutos,
         fechatemp.second,
         )
 
@@ -74,8 +73,11 @@ def copiar(destino,origen):
 def ver_fecha(proc):
     return proc[5].strftime("%d-%m %H:%M")
 
-def ver_mes(proc):
-    return proc[5].month
+def ver_min(proc):
+    return proc[5].minute
 
 def ver_hora(proc):
     return proc[5].hour
+
+def ver_mes(proc):
+    return proc[5].month
