@@ -26,6 +26,7 @@ for i in range(10): # genero 10 procesos de prueba
 
 def limpiarPantalla(): os.system('cls' if os.name=='nt' else 'clear')
 def imprimirProc(proc=None):
+    '''Si se la llama sin parámetro imprime la cabecera de la tabla, si se le pasa un proceso imprime los datos del proceso como una fila de la tabla'''
     if not proc:
         pid = "PID"
         nombre = "Nombre"
@@ -45,7 +46,7 @@ def imprimirProc(proc=None):
     ))
 
 def ingresarValor(min:int=0,max:int=0):
-    # Funcion para ingresar un valor entero por teclado en un rango especifico
+    '''Retorna un valor entero ingresado por el usuario, si se especifica un rango, el valor debe estar dentro de ese rango'''
     while True:
         try:
             valor = int(input('->')) # Leo el valor ingresado
@@ -59,6 +60,7 @@ def ingresarValor(min:int=0,max:int=0):
 
 #test
 def menu():
+    '''Muestra el menu y retorna la opcion elegida'''
     invalido = True
     while invalido:
         print('Seleccione una opcion')
