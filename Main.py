@@ -1,20 +1,27 @@
 import os
 import TadProceso as tp
 import TadCola as tc
-import datetime
-cola = tc.crear_cola()
-cola = [
-    [1,'proceso1','x',1,1,datetime.datetime.now()],
-    [2,'proceso2','x',2,2,datetime.datetime.now()],
-    [3,'proceso3','y',3,3,datetime.datetime.now()],
-    [4,'proceso4','y',4,4,datetime.datetime.now()],
-    [5,'proceso5','x',5,5,datetime.datetime.now()],
-    [6,'proceso6','z',6,6,datetime.datetime.now()],
-    [7,'proceso7','y',7,7,datetime.datetime.now()],
-    [8,'proceso8','x',8,8,datetime.datetime.now()],
-]
+import random
 
-print("Bienvenido") # Mensaje antes del menu
+
+cola = tc.crear_cola()
+tiposPrueba = ['x','y','z'] # genero una lista de tipos de prueba
+for i in range(10): # genero 10 procesos de prueba
+    proc = tp.crear_proceso() 
+    tp.cargar_proceso( # cargo los datos del proceso al azar
+        proc,
+        pid=i,
+        nom="nom"+str(i),
+        tipo=tiposPrueba[random.randint(0,2)], # elijo un tipo al azar de la lista
+        tam=random.randint(1,100),
+        prio=random.randint(1,3),
+        mes=random.randint(1,12),
+        hora=random.randint(0,23),
+        minutos=random.randint(0,59)
+    )
+    tc.encolar_proc(cola,proc) # encolo el proceso aleatorio en la cola
+
+
 
 def limpiarPantalla(): os.system('cls' if os.name=='nt' else 'clear')
 def imprimirProc(proc=None):
