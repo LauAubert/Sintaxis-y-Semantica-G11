@@ -76,11 +76,13 @@ while True:
         tam=int(input('->'))
         print('ingrese tipo')
         tipo=input('->')
+        print('ingrese mes')
+        mes=int(input('->'))
         print('ingrese hora')
         hora=int(input('->'))
         print('ingrese minutos')
         minutos=int(input('->'))
-        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,minutos,hora)
+        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,mes,minutos,hora)
         tc.encolar_proc(cola,proc)
 
     elif opcion ==2: #Modificar la prioridad del proceso
@@ -90,7 +92,7 @@ while True:
         while not tc.es_vacia(cola):
             proce = tc.desencolar_proc(cola)
             auxid = tp.ver_pid(proce)
-            if(auxid==idbuscado):
+            if(auxid==idbuscado): #! PONER UN FLAG SI FUE ENCONTRADO O NO
                 print('ingrese la prioridad nueva')
                 tp.mod_prio(proc,int(input('->')))
             tc.encolar_proc(colaaux,proce)
@@ -161,7 +163,8 @@ while True:
         imprimirProc()
         while not tc.es_vacia(cola):
             proc = tc.desencolar_proc(cola)
-            if horaini <= tp.ver_hora(proc) and tp.ver_hora(proc) <= horafin:
+            if ((horaini*100+minini <= tp.ver_hora(proc)*100+tp.ver_min(proc)) 
+                and (tp.ver_hora(proc)*100+tp.ver_min(proc) <= horafin*100+minfin)):
                 tc.encolar_proc(colafiltro,proc)
                 imprimirProc(proc)
             tc.encolar_proc(colaaux,proc)

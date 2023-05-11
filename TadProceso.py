@@ -17,7 +17,7 @@ def crear_proceso():
     #Crea un proceso vacio
     return [0,"","",0,0,datetime.datetime.now()]
 
-def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,minutos:int,hora:int) -> None:
+def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,mes:int,hora:int,minutos:int) -> None:
     #Carga la info del proceso
     proc[0] = pid
     proc[1] = nom
@@ -27,7 +27,7 @@ def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,minutos:int,ho
     fechatemp = proc[5]
     proc[5] = datetime.datetime(
         fechatemp.year,
-        fechatemp.month,
+        mes,
         fechatemp.day,
         hora,
         minutos,
