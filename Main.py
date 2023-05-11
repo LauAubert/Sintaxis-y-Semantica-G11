@@ -1,4 +1,5 @@
 import os
+import sys
 import TadProceso as tp
 import TadCola as tc
 import random
@@ -43,7 +44,17 @@ def imprimirProc(proc=None):
         pid, nombre, prio, tam, tipo, fecha
     ))
 
-
+def ingresarValor(min:int=0,max:int=0):
+    # Funcion para ingresar un valor entero por teclado en un rango especifico
+    while True:
+        try:
+            valor = int(input('->')) # Leo el valor ingresado
+            if min==0 and max==0: return valor # Si no se especifica rango y es INT devuelvo el valor
+            if valor<min or valor>max: raise Exception # Si el valor no esta en el rango lanzo una excepcion
+            return valor
+        except: # Si el valor no es INT o no esta en el rango muestro un mensaje de error
+            sys.stdout.write('\x1b[1A' + '\x1b[2K') # Borro la linea anterior
+            print('Valor invalido, ingrese de nuevo') 
 
 
 #test
@@ -74,34 +85,34 @@ while True:
         proc = tp.crear_proceso()
         print('----ingrese los datos del proceso----')
         print('ingrese ID de proceso')
-        pid=int(input('->'))
+        pid=ingresarValor()
         print('ingrese nombre')
         nom=input('->')
         print('ingrese prioridad')
-        prio=int(input('->'))
+        prio=ingresarValor()
         print('ingrese tamano')
-        tam=int(input('->'))
+        tam=ingresarValor()
         print('ingrese tipo')
         tipo=input('->')
         print('ingrese mes')
-        mes=int(input('->'))
+        mes=ingresarValor(1,12)
         print('ingrese hora')
-        hora=int(input('->'))
+        hora=ingresarValor(0,23)
         print('ingrese minutos')
-        minutos=int(input('->'))
-        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,mes,minutos,hora)
+        minutos=ingresarValor(0,59)
+        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,mes,hora,minutos)
         tc.encolar_proc(cola,proc)
 
     elif opcion ==2: #Modificar la prioridad del proceso
         print('ingrese el ID del proceso a modificar')
-        idbuscado = int(input('->'))
+        idbuscado = ingresarValor()
         colaaux = tc.crear_cola()
         while not tc.es_vacia(cola):
             proce = tc.desencolar_proc(cola)
             auxid = tp.ver_pid(proce)
             if(auxid==idbuscado): #! PONER UN FLAG SI FUE ENCONTRADO O NO
                 print('ingrese la prioridad nueva')
-                tp.mod_prio(proc,int(input('->')))
+                tp.mod_prio(proc,ingresarValor())
             tc.encolar_proc(colaaux,proce)
         while not tc.es_vacia(colaaux):
             tc.encolar_proc(cola,tc.desencolar_proc(colaaux))
@@ -127,7 +138,7 @@ while True:
 
     elif opcion == 5: #Dado un determinado mes, modificar la prioridad de los procesos a baja
         print('Ingrese el mes a modificar')
-        mes = int(input('->'))
+        mes = ingresarValor(1,12)
         colaaux = tc.crear_cola()
         while not tc.es_vacia(cola):
             proc = tc.desencolar_proc(cola)
@@ -158,13 +169,13 @@ while True:
 
     elif opcion == 7: #Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas
         print('Ingrese la hora inicial')
-        horaini = int(input('->'))
+        horaini = ingresarValor(0,23)
         print('Ingrese los minutos iniciales')
-        minini = int(input('->'))
+        minini = ingresarValor(0,59)
         print('Ingrese la hora final')
-        horafin = int(input('->'))
+        horafin = ingresarValor(0,23)
         print('Ingrese los minutos finales')
-        minfin = int(input('->'))
+        minfin = ingresarValor(0,59)
         colaaux = tc.crear_cola()
         colafiltro = tc.crear_cola()
         imprimirProc()
