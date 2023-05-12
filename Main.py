@@ -144,16 +144,22 @@ while True:
     elif opcion == 5: #Dado un determinado mes, modificar la prioridad de los procesos a baja
         print('Ingrese el mes a modificar') 
         mes = ingresarValor(1,12)    
+        limpiarPantalla()
         colaaux = tc.crear_cola()  
+        flag = False
         while not tc.es_vacia(cola):   #Desencola cada proceso
             proc = tc.desencolar_proc(cola)
             if mes == tp.ver_mes(proc): #Verifica que el mes sea igual al ingresado, y les cambia la prioridad
+                if flag == False: imprimirProc()
+                flag = True
                 tp.mod_prio(proc,0)
+                imprimirProc(proc)
             tc.encolar_proc(colaaux,proc) #Encola todos los procesos, incluidos los modificados en colaaux
         while not tc.es_vacia(colaaux): #Devuelve los procesos a la cola original
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
-        print('Se modificaron los procesos del mes',mes,'a prioridad baja')
+        if flag == False: print('No se encontraron procesos con el mes ingresado')
+        else: print('Se modificaron los procesos del mes',mes,'a prioridad baja')
         input('presione enter para continuar')
 
 
@@ -161,16 +167,23 @@ while True:
         print('Ingrese el tipo de proceso a eliminar')
         tipoproc = input('->')   
         colaaux = tc.crear_cola()
+        limpiarPantalla()
+        flag = False
         while not tc.es_vacia(cola):   #Mientras la cola no es vacia
             proc = tc.desencolar_proc(cola) #Desencola cada proceso
             if tipoproc != tp.ver_tipo(proc): #Si el tipo ingresado es igual al del proceso, lo borra y sino lo encola en la colaaux
                 tc.encolar_proc(colaaux,proc)
+            else: 
+                if flag == False:imprimirProc()
+                flag = True 
+                imprimirProc(proc) #Si el tipo es igual, lo imprime
         while not tc.es_vacia(colaaux): #Devuelve los procesos, sin los que fueron eliminados, a la cola original
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
-        print('Se eliminaron los procesos de tipo',tipoproc) 
+        if flag == False: print('No se encontraron procesos con el tipo ingresado')
+        else: print('Se listan los eliminados los procesos con el tipo',tipoproc)
         input('presione enter para continuar')
-            
+
 
     elif opcion == 7: #Generar una cola con aquellos procesos cuya última modificación se encuentre entre dos horas dadas
         print('Ingrese la hora inicial')     #Se ingresa el rango de tiempo de los procesos que se estan buscando
@@ -183,6 +196,7 @@ while True:
         minfin = ingresarValor(0,59)
         colaaux = tc.crear_cola()
         colafiltro = tc.crear_cola()
+        limpiarPantalla()
         imprimirProc()
         while not tc.es_vacia(cola):            #Mientras la cola no es vacia, desencola los procesos, convierte las horas y minutos en enteros (ingresadas y de los procesos desencolados)
             proc = tc.desencolar_proc(cola)
@@ -197,4 +211,3 @@ while True:
         input('presione enter para continuar')
 
     limpiarPantalla()
-
