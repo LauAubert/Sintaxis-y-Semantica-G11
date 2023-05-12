@@ -28,6 +28,7 @@ for i in range(10): # genero 10 procesos de prueba
 def limpiarPantalla(): os.system('cls' if os.name=='nt' else 'clear')
 def imprimirProc(proc=None):
     '''Si se la llama sin parámetro imprime la cabecera de la tabla, si se le pasa un proceso imprime los datos del proceso como una fila de la tabla'''
+    listaPrio = ['','Baja','Media','Alta']
     if not proc:
         pid = "PID"
         nombre = "Nombre"
@@ -38,7 +39,7 @@ def imprimirProc(proc=None):
     else:
         pid = tp.ver_pid(proc)
         nombre = tp.ver_nom(proc)
-        prio = tp.ver_prio(proc)
+        prio = listaPrio[tp.ver_prio(proc)] # obtengo la prioridad del proceso y la convierto en string para mostrarla
         tam = tp.ver_tam(proc)
         tipo = tp.ver_tipo(proc)
         fecha = tp.ver_fecha(proc)
@@ -93,8 +94,8 @@ while True:
         pid=ingresarValor()
         print('ingrese nombre')
         nom=input('->')
-        print('ingrese prioridad')
-        prio=ingresarValor()
+        print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
+        prio=ingresarValor(1,3)
         print('ingrese tamano')
         tam=ingresarValor()
         print('ingrese tipo')
@@ -152,7 +153,7 @@ while True:
             if mes == tp.ver_mes(proc): #Verifica que el mes sea igual al ingresado, y les cambia la prioridad
                 if flag == False: imprimirProc()
                 flag = True
-                tp.mod_prio(proc,0)
+                tp.mod_prio(proc,1)
                 imprimirProc(proc)
             tc.encolar_proc(colaaux,proc) #Encola todos los procesos, incluidos los modificados en colaaux
         while not tc.es_vacia(colaaux): #Devuelve los procesos a la cola original
@@ -197,17 +198,20 @@ while True:
         colaaux = tc.crear_cola()
         colafiltro = tc.crear_cola()
         limpiarPantalla()
-        imprimirProc()
+        flag = False
         while not tc.es_vacia(cola):            #Mientras la cola no es vacia, desencola los procesos, convierte las horas y minutos en enteros (ingresadas y de los procesos desencolados)
             proc = tc.desencolar_proc(cola)
             if ((horaini*100+minini <= tp.ver_hora(proc)*100+tp.ver_min(proc)) 
                 and (tp.ver_hora(proc)*100+tp.ver_min(proc) <= horafin*100+minfin)):
+                if flag == False: imprimirProc()
+                flag = True
                 tc.encolar_proc(colafiltro,proc)    #Los compara en la condicion del if y si estan dentro de las horas dadas, los encola en la colafiltro y los imprime
                 imprimirProc(proc)
             tc.encolar_proc(colaaux,proc)  #Tambien los encola en la colaaux
         while not tc.es_vacia(colaaux):  #Devuelve los procesos a la cola original
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
+        if not flag: print('No se encontraron procesos con la hora ingresada')
         input('presione enter para continuar')
 
     limpiarPantalla()
