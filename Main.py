@@ -117,8 +117,8 @@ while True:
             proc = tc.desencolar_proc(cola)
             auxid = tp.ver_pid(proc)
             if(auxid==idbuscado): #! PONER UN FLAG SI FUE ENCONTRADO O NO
-                print('ingrese la prioridad nueva')
-                tp.mod_prio(proc,ingresarValor())
+                print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
+                prio=ingresarValor(1,3)
             tc.encolar_proc(colaaux,proc)  #Busca el id y encola los procesos en una cola auxiliar, si lo encuentra lo modifica y lo encola en aux de la misma manera
         while not tc.es_vacia(colaaux):
             tc.encolar_proc(cola,tc.desencolar_proc(colaaux)) #Se encolan los procesos nuevamente en la cola original y el proceso buscado con la prioridad modificada
