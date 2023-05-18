@@ -96,7 +96,7 @@ while True:
         nom=input('->')
         print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
         prio=ingresarValor(1,3)
-        print('ingrese tamano')
+        print('ingrese tamaño')
         tam=ingresarValor()
         print('ingrese tipo')
         tipo=input('->')
@@ -191,7 +191,7 @@ while True:
             proc = tc.desencolar_proc(colaaux)
             tc.encolar_proc(cola,proc)
         if flag == False: print('No se encontraron procesos con el tipo ingresado')
-        else: print('Se listan los eliminados los procesos con el tipo',tipoproc)
+        else: print('Se listan los procesos eliminados con el tipo',tipoproc)
         input('presione enter para continuar')
 
 
