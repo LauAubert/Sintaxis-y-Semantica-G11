@@ -90,8 +90,21 @@ while True:
     if opcion ==1: #Encolar proceso
         proc = tp.crear_proceso() #Crea un proceso vacio
         print('----ingrese los datos del proceso----')
-        print('ingrese ID de proceso')
-        pid=ingresarValor()
+        idcorr = True
+        while(idcorr):
+            print('ingrese ID de proceso')
+            pid=ingresarValor()
+            colaaux1 = tc.crear_cola()
+            tc.copiar(colaaux1,cola)
+            while not tc.es_vacia(colaaux1):
+                procaux1 = tc.desencolar_proc(colaaux1)
+                pidaux = tp.ver_pid(procaux1)
+                if pidaux == pid:
+                    print("error , este id de proceso ya existe")
+                    break
+            if tc.es_vacia(colaaux1):
+                idcorr = False
+
         print('ingrese nombre')
         nom=input('->')
         print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
