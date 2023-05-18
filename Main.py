@@ -1,9 +1,9 @@
-import os
-import sys
-import TadProceso as tp
+import os # importo OS para la funcion limpiarPantalla()
+import sys # importo SYS para la funcion ingresarValor() (borrar linea anterior)
+import TadProceso as tp 
 import TadCola as tc
-import random
-import mensaje
+import random # importo RANDOM para generar datos aleatorios de prueba
+import mensaje # importo el modulo mensaje para mostrar el mensaje de bienvenida (ASCII ART)
 
 
 cola = tc.crear_cola()
@@ -17,7 +17,9 @@ for i in range(10): # genero 10 procesos de prueba
         tipo=tiposPrueba[random.randint(0,2)], # elijo un tipo al azar de la lista
         tam=random.randint(1,100),
         prio=random.randint(1,3),
+        ano=random.randint(2019,2020),
         mes=random.randint(1,12),
+        dia=random.randint(25,28),
         hora=random.randint(0,23),
         minutos=random.randint(0,59)
     )
@@ -43,7 +45,7 @@ def imprimirProc(proc=None):
         tam = tp.ver_tam(proc)
         tipo = tp.ver_tipo(proc)
         fecha = tp.ver_fecha(proc)
-    print('{:<4}|{:<10}|{:<10}|{:<10}|{:<10}|{:<15}|'.format(
+    print('{:<4}|{:<10}|{:<10}|{:<10}|{:<10}|{:<16}|'.format(
         pid, nombre, prio, tam, tipo, fecha
     ))
 
@@ -102,7 +104,7 @@ while True:
                 if pidaux == pid:
                     print("error , este id de proceso ya existe")
                     break
-            if tc.es_vacia(colaaux1):
+            if pidaux != pid:
                 idcorr = False
 
         print('ingrese nombre')
@@ -113,13 +115,18 @@ while True:
         tam=ingresarValor()
         print('ingrese tipo')
         tipo=input('->')
+        print('ingrese año')
+        ano=ingresarValor(1,2023)
         print('ingrese mes')
         mes=ingresarValor(1,12)
+        print('ingrese dia')
+        diasmes=[31,28,31,30,31,30,31,31,30,31,30,31]
+        dia=ingresarValor(1,diasmes[mes-1])
         print('ingrese hora')
         hora=ingresarValor(0,23)
         print('ingrese minutos')
         minutos=ingresarValor(0,59)
-        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,mes,hora,minutos) #Con los datos ingresados, carga el proceso y lo encola
+        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,ano,mes,dia,hora,minutos) #Con los datos ingresados, carga el proceso y lo encola
         tc.encolar_proc(cola,proc)
 
     elif opcion ==2: #Modificar la prioridad del proceso
@@ -135,14 +142,13 @@ while True:
                 print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
                 prio=ingresarValor(1,3)
                 tp.mod_prio(proc,prio) 
+                print('Se modificó la prioridad del proceso con el ID ingresado')
+                imprimirProc()
+                imprimirProc(proc) 
             tc.encolar_proc(colaaux,proc)  #Busca el id y encola los procesos en una cola auxiliar, si lo encuentra lo modifica y lo encola en aux de la misma manera
         while not tc.es_vacia(colaaux):
             tc.encolar_proc(cola,tc.desencolar_proc(colaaux)) #Se encolan los procesos nuevamente en la cola original y el proceso buscado con la prioridad modificada
         if flag == False: print('No se encontró el proceso con el ID ingresado') #Si no se encuentra el proceso, se imprime un mensaje de error
-        else: 
-            print('Se modificó la prioridad del proceso con el ID ingresado')
-            imprimirProc() 
-            imprimirProc(proc) 
         input('presione enter para continuar')
 
     elif opcion == 3: #Desencolar proceso
