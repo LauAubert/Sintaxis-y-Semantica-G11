@@ -26,7 +26,6 @@ for i in range(10): # genero 10 procesos de prueba
     tc.encolar_proc(cola,proc) # encolo el proceso aleatorio en la cola
 
 
-
 def limpiarPantalla(): os.system('cls' if os.name=='nt' else 'clear')
 def imprimirProc(proc=None):
     '''Si se la llama sin parámetro imprime la cabecera de la tabla, si se le pasa un proceso imprime los datos del proceso como una fila de la tabla'''
@@ -136,15 +135,17 @@ while True:
     elif opcion ==2: #Modificar la prioridad del proceso
         print('ingrese el ID del proceso a modificar')
         idbuscado = ingresarValor() #Ingresa un id para buscar el proceso
+        limpiarPantalla() 
         colaaux = tc.crear_cola() #Crea una cola vacia auxiliar
         flag = False
         while not tc.es_vacia(cola):  #Mientras la cola no es vacia, desencola el primer proceso y guarda el pid del mismo en auxid
             proc = tc.desencolar_proc(cola)
             auxid = tp.ver_pid(proc)
             if(auxid==idbuscado):
-                flag = True 
+                flag = True #Flag verdadera, significa que encuentra el proceso y modifica la prioridad
                 print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
                 prio=ingresarValor(1,3)
+                limpiarPantalla()
                 tp.mod_prio(proc,prio) 
                 print('Se modificó la prioridad del proceso con el ID ingresado')
                 imprimirProc()
