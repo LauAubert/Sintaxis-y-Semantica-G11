@@ -17,11 +17,11 @@ for i in range(10): # genero 10 procesos de prueba
         tipo=tiposPrueba[random.randint(0,2)], # elijo un tipo al azar de la lista
         tam=random.randint(1,100),
         prio=random.randint(1,3),
-        ano=random.randint(2019,2020),
-        mes=random.randint(1,12),
-        dia=random.randint(25,28),
-        hora=random.randint(0,23),
-        minutos=random.randint(0,59)
+        fecha=str(random.randint(1,31))+"-"
+            +str(random.randint(1,12))+"-"
+            +str(random.randint(2000,2022))+" "
+            +str(random.randint(0,23))+":"
+            +str(random.randint(0,59)) # genero una fecha al azar (dd-mm-yyyy HH:MM)
     )
     tc.encolar_proc(cola,proc) # encolo el proceso aleatorio en la cola
 
@@ -89,6 +89,7 @@ def menu(): #Creamos una funcion que es para hacer uso del menu
 while True:
     opcion = menu() #Se usa la funcion menu para obtener el valor de la respuesta
     limpiarPantalla() 
+
     if opcion ==1: #Encolar proceso
         proc = tp.crear_proceso() #Crea un proceso vacio
         print('----ingrese los datos del proceso----')
@@ -106,28 +107,31 @@ while True:
                     break
             if pidaux != pid:
                 idcorr = False
+        limpiarPantalla()
 
         print('ingrese nombre')
         nom=input('->')
+        limpiarPantalla()
         print('ingrese prioridad \n  1-Baja \n  2-Media \n  3-Alta')
         prio=ingresarValor(1,3)
+        limpiarPantalla()
         print('ingrese tamaño')
         tam=ingresarValor()
+        limpiarPantalla()
         print('ingrese tipo')
         tipo=input('->')
-        print('ingrese año')
-        ano=ingresarValor(1,2023)
-        print('ingrese mes')
-        mes=ingresarValor(1,12)
-        print('ingrese dia')
-        diasmes=[31,28,31,30,31,30,31,31,30,31,30,31]
-        dia=ingresarValor(1,diasmes[mes-1])
-        print('ingrese hora')
-        hora=ingresarValor(0,23)
-        print('ingrese minutos')
-        minutos=ingresarValor(0,59)
-        tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,ano,mes,dia,hora,minutos) #Con los datos ingresados, carga el proceso y lo encola
-        tc.encolar_proc(cola,proc)
+        limpiarPantalla()
+        print('ingrese fecha y hora de la ultima modificacion \nformato:(dd-mm-yyyy HH:MM)',end='')
+        while True:
+            fecha = input('->')
+            valido = tp.cargar_proceso(proc,pid,nom,tipo,tam,prio,fecha) #Con los datos ingresados, carga el proceso y lo encola
+            if valido: 
+                tc.encolar_proc(cola,proc)
+                break
+            else: 
+                limpiarPantalla()
+                print('Datos incorrectos, ingrese de nuevo la fecha\n formato:(dd-mm-yyyy HH:MM)',end='')
+
 
     elif opcion ==2: #Modificar la prioridad del proceso
         print('ingrese el ID del proceso a modificar')

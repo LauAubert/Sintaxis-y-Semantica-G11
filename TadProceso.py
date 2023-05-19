@@ -17,22 +17,19 @@ def crear_proceso():
     '''Crea un proceso vacio'''
     return [0,"","",0,0,datetime.datetime.now()]
 
-def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,ano:int,mes:int,dia:int,hora:int,minutos:int) -> None:
+def cargar_proceso(proc,pid:int,nom:str,tipo:str,tam:int,prio:int,fecha:str) -> bool:
     '''Carga la info del proceso'''
     proc[0] = pid
     proc[1] = nom
     proc[2] = tipo
     proc[3] = tam
-    proc[4] = prio
-    fechatemp = proc[5]
-    proc[5] = datetime.datetime(
-        ano,
-        mes,
-        dia,
-        hora,
-        minutos,
-        fechatemp.second,
-        )
+    try:
+        if prio < 1 or prio > 3: raise Exception
+        proc[4] = prio
+        proc[5] = datetime.datetime.strptime(fecha,'%d-%m-%Y %H:%M')
+        return True
+    except:
+        return False
 
 
 
